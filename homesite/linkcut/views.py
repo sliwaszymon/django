@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.views.generic import ListView, DetailView, TemplateView, FormView
 
 # Create your views here.
 
-def index(request):
-    return HttpResponse("Hello, world. You're at the lincut index.")
+class IndexView(TemplateView):
+    template_name = 'linkcut/index.html'
