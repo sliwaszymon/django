@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from datetime import datetime
 
 # Create your models here.
@@ -10,4 +11,7 @@ class Link(models.Model):
 
     def __str__(self):
         return f'{self.snippet} | {self.link}'
+
+    def get_absolute_url(self):
+        return reverse("link-detail", kwargs={"pk": self.pk})
     

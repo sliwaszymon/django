@@ -1,0 +1,25 @@
+{% extends '_base/base_genetic.html' %}
+
+{% block title %}
+LINKCUT - CutIt
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <form method="post">
+    {% csrf_token %}
+    <label for="snippet" class="form-label">Your short URL</label>
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="snippet_addon">https://{{ request.get_host }}</span>
+     {{ form.snippet }}
+    </div>
+    <div class="mb-3">
+      <label for="url" class="form-label">Full URL</label>
+      {{ form.url }}
+    </div>
+    <input type="submit" class="btn btn-primary" value="OK">
+  </form>
+</div>
+
+{% endblock %}

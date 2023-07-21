@@ -1,7 +1,7 @@
 {% extends '_base/base_genetic.html' %}
 
 {% block title %}
-LINKCUT
+LINKCUT - Link detail
 {% endblock %}
 
 {% block content %}
@@ -9,9 +9,9 @@ LINKCUT
 
 <div class="container">
 
-  <h1>
-    LINKCUT
-  </h1>
+  <h1>{{ object.snippet }}</h1>
+  <p>{{ object.url }}</p>
+  <p>Date: {{ now|date }}</p>
 
 </div>
 
