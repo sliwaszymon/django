@@ -9,9 +9,9 @@ LINKCUT - Link detail
 
 <div class="container">
 
-  <h1>{{ object.snippet }}</h1>
+  <h1>https://{{ request.get_host }}/{{ object.snippet }}</h1>
   <p>{{ object.url }}</p>
-  <p>Date: {{ now|date }}</p>
+  <p>Date: {{ object.creation_date }}</p>
 
 </div>
 
