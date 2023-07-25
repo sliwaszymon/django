@@ -1,0 +1,39 @@
+{% extends '_base/base_generic.html' %}
+
+{% block title %}
+TODOS
+{% endblock %}
+
+{% block scripts %}{% endblock %}
+
+{% block content %}
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-8 shadow-sm p-3 mb-5 bg-body rounded">
+
+    </div>
+    <div class="col-4">
+      <div class="row shadow-sm p-3 mb-5 bg-body rounded">
+         <form method="post">
+          {% csrf_token %}
+          {{ section_form.as_p }}
+          <input class="btn btn-primary" type="submit" value="Submit Section Form">
+        </form>
+      </div>
+      <div class="row mt-4 shadow-sm p-3 mb-5 bg-body rounded">
+        <form method="post">
+          {% csrf_token %}
+          {{ todo_form.as_p }}
+          <input class="btn btn-primary" type="submit" value="Submit Todo Form">
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+
+{% endblock %}

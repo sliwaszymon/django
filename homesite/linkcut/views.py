@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.db.models.functions import ExtractYear, ExtractMonth, ExtractDay
 from django.views.generic import ListView, DetailView, TemplateView, CreateView, DeleteView
 
-from homesite.project.utils import create_qr, qr_to_base64
+from .utils import create_qr, qr_to_base64
 from .forms import CutItForm
 from .models import Link
 

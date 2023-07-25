@@ -1,5 +1,6 @@
 from django.urls import path
+from .views import TodosIndexView
 
 urlpatterns = [
-    # path("", LinkcutIndexView.as_view(), name="linkcut-index"),
+    path("", TodosIndexView.as_view(), name="todos-index"),
 ]
