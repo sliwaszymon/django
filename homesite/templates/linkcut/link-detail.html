@@ -1,18 +1,23 @@
-{% extends '_base/base_genetic.html' %}
+{% extends '_base/base_generic.html' %}
 
 {% block title %}
 LINKCUT - Link detail
 {% endblock %}
 
+{% block scripts %}{% endblock %}
+
 {% block content %}
 
 
 <div class="container">
-
-  <h1>https://{{ request.get_host }}/{{ object.snippet }}</h1>
-  <p>{{ object.url }}</p>
   <p>Date: {{ object.creation_date }}</p>
-
+  <div class="card" style="width: 18rem;">
+    <img src="data:image/jpeg;base64,{{ qrcode }}" class="card-img-top" alt="QRCode">
+    <div class="card-body">
+      <a href="{% url 'redirect' snippet=object.snippet %}"><h5 class="card-title">http://{{ request.get_host }}/linkcut/r/{{ object.snippet }}</h5></a>
+      <p class="card-text">{{ object.url }}</p>
+    </div>
+  </div>
 </div>
 
 

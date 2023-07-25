@@ -1,8 +1,10 @@
-{% extends '_base/base_genetic.html' %}
+{% extends '_base/base_generic.html' %}
 
 {% block title %}
 LINKCUT - Link list
 {% endblock %}
+
+{% block scripts %}{% endblock %}
 
 {% block content %}
 
@@ -13,6 +15,7 @@ LINKCUT - Link list
       <tr>
         <th scope="col">URL</th>
         <th scope="col">SHORT LINK</th>
+        <th scope="col">VISITS</th>
         <th scope="col">CREATION DATE</th>
         <th scope="col">ACTIONS</th>
       </tr>
@@ -21,8 +24,9 @@ LINKCUT - Link list
     {% for link in object_list %}
       <tr>
         <td>{{ link.url|slice:":25" }}...</td>
-        <td>https://{{ request.get_host }}/{{ link.snippet }}/</td>
-        <td>{{ link.creation_date|date }} :: {{ link.creation_date|time }}</td>
+        <td><a href="{% url 'redirect' snippet=link.snippet %}">http://{{ request.get_host }}/linkcut/r/{{ link.snippet }}/</a></td>
+        <td>{{ link.visit_counter }}</td>
+        <td>{{ link.creation_date|date }} {{ link.creation_date|time }}</td>
         <td>
           <div class="btn-group">
             <a href="{% url 'link-detail' pk=link.pk %}"><button class="btn btn-primary">Show</button></a>

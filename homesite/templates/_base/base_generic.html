@@ -5,15 +5,17 @@
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'bootstrap530\css\bootstrap.min.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    {% block scripts %}{% endblock %}
 </head>
 
 <body>
+    {% include '_base/navbar.html' %}
+
     <div id="sidebar">
         {% include '_base/sidebar.html' %}
     </div>
 
-    <div id="content">
-        <button class="btn btn-secondary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"><span class="material-symbols-outlined">menu</span></button>
+    <div id="content" class="pt-5 mt-5">
         {% block content %}{% endblock %}
     </div>
     <script src="{% static 'bootstrap530\js\bootstrap.min.js' %}"></script>

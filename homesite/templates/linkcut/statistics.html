@@ -1,0 +1,76 @@
+{% extends '_base/base_generic.html' %}
+
+{% block title %}
+  LINKCUT - Link statistics
+{% endblock %}
+
+{% block scripts %}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <h1 class="display-1 text-center pb-3">Statistics for Link</h1>
+  <div class="row">
+    <div class="col-6">
+      <h1 class="display-5">Highest visit count</h1>
+      <canvas id="pieChart" width="400" height="400"></canvas>
+      <p class="mt-3">Total visits using short links: {{ all_visits }}</p>
+      <script>
+          var pieData = {
+              labels: {{ top_records_labels|safe }},
+              datasets: [{
+                  data: {{ top_records_visits }},
+                  backgroundColor: ['#ff6384', '#36a2eb', '#cc65fe', '#ffce56', '#6bff8f'],
+              }]
+          };
+
+          var pieOptions = {
+              responsive: false,
+              maintainAspectRatio: false,
+          };
+
+          var pieChart = new Chart(document.getElementById('pieChart'), {
+              type: 'pie',
+              data: pieData,
+              options: pieOptions
+          });
+      </script>
+    </div>
+    <div class="col-6">
+      <h1 class="display-5">Most links created by date</h1>
+      <canvas id="barChart" width="400" height="400"></canvas>
+      <p class="mt-3">Total number of shortened links created: {{ all_links }}</p>
+      <script>
+          var barData = {
+              labels: {{ date_counts_labels|safe }},
+              datasets: [{
+                  label: 'Link Count',
+                  data: {{ date_counts_data }},
+                  backgroundColor: '#36a2eb',
+              }]
+          };
+
+          var barOptions = {
+              responsive: false,
+              maintainAspectRatio: false,
+              scales: {
+                  y: {
+                      beginAtZero: true,
+                  }
+              }
+          };
+
+          var barChart = new Chart(document.getElementById('barChart'), {
+              type: 'bar',
+              data: barData,
+              options: barOptions
+          });
+      </script>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

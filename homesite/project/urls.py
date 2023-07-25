@@ -17,7 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+from .index import IndexView, empty_response
+
 urlpatterns = [
+    path('', IndexView.as_view(), name='index'),
+    path('favicon.ico', empty_response),
     path('linkcut/', include('linkcut.urls')),
     path('admin/', admin.site.urls),
 ]
