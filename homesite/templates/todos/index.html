@@ -25,8 +25,13 @@ TODOS
             <div class="accordion-body">
               {% for todo in todos %}
                 {% if todo.section.pk == section.pk %}
-                  <div style="background-color: {{ todo.color }};">
-                    {{ todo.description }}
+                  <div class="row" style="background-color: {{ todo.color }};">
+                    <div class="col-10">
+                      {{ todo.description }}
+                    </div>
+                    <div class="col-1">
+                      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#todo{{ todo.pk }}_Modal">Delete</button>
+                    </div>
                   </div>
                 {% endif %}
               {% endfor %}
@@ -79,6 +84,29 @@ TODOS
 
 
 </div>
+
+{% for todo in todos %}
+  <div class="modal fade" id="todo{{ todo.pk }}_Modal" tabindex="-1" aria-labelledby="todo{{ todo.pk }}_ModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="todo{{ todo.pk }}_ModalLabel">Delete todo {{ todo.pk }}</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to remove todo {{ todo.pk }}?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+           <form method="post" action="{% url 'todo-delete' pk=todo.pk %}">
+              {% csrf_token %}
+              <input type="submit" class="btn btn-danger" value="Delete" />
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
 
 
 {% endblock %}
