@@ -1,4 +1,5 @@
 from django import forms
+from django.forms.widgets import TextInput
 
 from .models import Section, Todo
 
@@ -19,8 +20,9 @@ class SectionForm(forms.ModelForm):
             'class': 'form-control',
             'id': 'todo_cap',
             'name': 'todo_cap',
-            'placeholder': 'Live empty for no limits'
+            'aria-describedby': 'todo_cap_addon'
         })
+        self.fields['todo_cap'].required = False
 
     class Meta:
         model = Section
@@ -36,7 +38,7 @@ class TodoForm(forms.ModelForm):
             'class': 'form-control',
             'id': 'description',
             'name': 'description',
-            'placeholder': 'Name of your section'
+            'placeholder': 'Your\'s todo description'
         })
 
         self.fields['section'].widget.attrs.update({
@@ -51,6 +53,16 @@ class TodoForm(forms.ModelForm):
             'name': 'section'
         })
 
+        self.fields['color'].widget.attrs.update({
+            'class': 'form-control',
+            'id': 'color',
+            'name': 'color',
+            'size': '50'
+        })
+
     class Meta:
         model = Todo
         fields = ['section', 'description', 'deadline', 'color']
+        widgets = {
+            'color': TextInput(attrs={'type': 'color'})
+        }

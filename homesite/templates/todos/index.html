@@ -13,20 +13,65 @@ TODOS
   <div class="row">
     <div class="col-8 shadow-sm p-3 mb-5 bg-body rounded">
 
+      <div class="accordion" id="accordionPanel">
+        {% for section in sections %}
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse{{ section.name }}" aria-expanded="true" aria-controls="panelsStayOpen-collapse{{ section.name }}">
+              {{ section.name }}
+            </button>
+          </h2>
+          <div id="panelsStayOpen-collapse{{ section.name }}" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-heading{{ section.name }}">
+            <div class="accordion-body">
+              {% for todo in todos %}
+                {% if todo.section.pk == section.pk %}
+                  <div style="background-color: {{ todo.color }};">
+                    {{ todo.description }}
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
     </div>
     <div class="col-4">
       <div class="row shadow-sm p-3 mb-5 bg-body rounded">
+        <h1 class="dispay-5">Add Section</h1>
          <form method="post">
           {% csrf_token %}
-          {{ section_form.as_p }}
-          <input class="btn btn-primary" type="submit" value="Submit Section Form">
+           <label for="name" class="form-label">Section name</label>
+           {{ section_form.name }}
+           <label for="todo_cap" class="form-label">Maximum amount of your todos inside section</label>
+           <div class="input-group mb-3">
+             <span class="input-group-text" id="todo_cap_addon">Live 0 for no limits</span>
+             {{ section_form.todo_cap }}
+           </div>
+          <input class="btn btn-primary" type="submit" value="Add Section">
         </form>
       </div>
       <div class="row mt-4 shadow-sm p-3 mb-5 bg-body rounded">
+        <h1 class="dispay-5">Add Todo</h1>
         <form method="post">
           {% csrf_token %}
-          {{ todo_form.as_p }}
-          <input class="btn btn-primary" type="submit" value="Submit Todo Form">
+          <div>
+            <label for="section" class="form-label">Section</label>
+            {{ todo_form.section }}
+          </div>
+          <div>
+            <label for="description" class="form-label">Description</label>
+            {{ todo_form.description }}
+          </div>
+          <div>
+            <label for="deadline" class="form-label">Deadline date</label>
+            {{ todo_form.deadline }}
+          </div>
+          <div>
+            <label for="color" class="form-label">Color</label>
+            {{ todo_form.color }}
+          </div>
+          <input class="btn btn-primary mt-3" type="submit" value="Add Todo">
         </form>
       </div>
     </div>
