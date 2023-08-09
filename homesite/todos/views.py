@@ -1,4 +1,5 @@
 from django.views.generic import TemplateView, DeleteView
+from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 
 from .models import Section, Todo
@@ -12,10 +13,6 @@ class TodosIndexView(TemplateView):
         context = super().get_context_data(**kwargs)
         sections = Section.objects.all()
         todos = Todo.objects.all()
-
-        # todos = {}
-        # for section in sections:
-        #     todos[section.pk] = Todo.objects.filter(section=section)
 
         context['sections'] = sections
         context['todos'] = todos
@@ -36,6 +33,7 @@ class TodosIndexView(TemplateView):
             else:
                 section.todo_cap = 0
             section.save()
+            return HttpResponseRedirect(reverse_lazy('todos-index'))
 
         if todo_form.is_valid():
             section = todo_form.cleaned_data['section']
@@ -44,6 +42,7 @@ class TodosIndexView(TemplateView):
             color = todo_form.cleaned_data['color']
             todo = Todo(section=section, description=desc, deadline=deadline, color=color)
             todo.save()
+            return HttpResponseRedirect(reverse_lazy('todos-index'))
 
         context = self.get_context_data(**kwargs)
         return self.render_to_response(context)
@@ -51,4 +50,9 @@ class TodosIndexView(TemplateView):
 
 class TodoDeleteView(DeleteView):
     model = Todo
+    success_url = reverse_lazy('todos-index')
+
+
+class SectionDeleteView(DeleteView):
+    model = Section
     success_url = reverse_lazy('todos-index')

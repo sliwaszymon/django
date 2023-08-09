@@ -25,12 +25,19 @@ TODOS
             <div class="accordion-body">
               {% for todo in todos %}
                 {% if todo.section.pk == section.pk %}
-                  <div class="row" style="background-color: {{ todo.color }};">
-                    <div class="col-10">
-                      {{ todo.description }}
-                    </div>
-                    <div class="col-1">
-                      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#todo{{ todo.pk }}_Modal">Delete</button>
+                  <div class="card" style="background-color: {{ todo.color }};">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-8">
+                          {{ todo.description }}
+                        </div>
+                        <div class="col-2">
+                          <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#todo{{ todo.pk }}_Modal"><i class="bi bi-trash"></i> Delete</button>
+                        </div>
+                        <div class="col-2">
+                          <button class="btn btn-warning"><i class="bi bi-pen"></i> Edit</button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 {% endif %}
