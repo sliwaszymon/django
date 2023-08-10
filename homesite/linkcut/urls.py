@@ -1,9 +1,10 @@
 from django.urls import path
+from django.views.generic.base import RedirectView
 
-from .views import LinkcutIndexView, CutItFormView, LinkDetailView, LinkListView, LinkDeleteView, LinkStatisticsView, redirect_to
+from .views import CutItFormView, LinkDetailView, LinkListView, LinkDeleteView, LinkStatisticsView, redirect_to
 
 urlpatterns = [
-    path("", LinkcutIndexView.as_view(), name="linkcut-index"),
+    path("", RedirectView.as_view(pattern_name="cutit", permanent=True)),
     path("cutit/", CutItFormView.as_view(), name="cutit"),
     path("link/<pk>/", LinkDetailView.as_view(), name="link-detail"),
     path("links/", LinkListView.as_view(), name="link-list"),

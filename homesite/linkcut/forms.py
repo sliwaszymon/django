@@ -21,19 +21,6 @@ class CutItForm(forms.ModelForm):
             'aria-describedby': 'snippet_addon'
         })
 
-        # self.fields['url'].widget.attrs['class'] = 'form-control'
-        # self.fields['url'].widget.attrs['id'] = 'url'
-        # self.fields['url'].widget.attrs['name'] = 'url'
-        # self.fields['url'].widget.attrs['pattern'] = 'https://.*'
-        # self.fields['url'].widget.attrs['placeholder'] = 'https://www.yourlink.com'
-
-        # self.fields['snippet'].widget.attrs['class'] = 'form-control'
-        # self.fields['snippet'].widget.attrs['id'] = 'snippet'
-        # self.fields['snippet'].widget.attrs['name'] = 'snippet'
-        # self.fields['snippet'].widget.attrs['aria-describedby'] = 'snippet_addon'
-
     class Meta:
         model = Link
         fields = ['url', 'snippet']
-
-

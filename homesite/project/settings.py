@@ -25,13 +25,14 @@ SECRET_KEY = 'django-insecure-7z*i@74k$mdms_5nz$olqt!t@ln1@hh)uscq=ra8b0k+*t2=#f
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 
 INSTALLED_APPS = [
     'linkcut.apps.LinkcutConfig',
+    'todos.apps.TodosConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
