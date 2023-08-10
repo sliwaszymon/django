@@ -9,9 +9,6 @@ from .forms import CutItForm
 from .models import Link
 
 
-# Create your views here.
-
-
 class CutItFormView(CreateView):
     template_name = 'linkcut/cutit.html'
     form_class = CutItForm

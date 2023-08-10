@@ -46,6 +46,7 @@ class TodoForm(forms.ModelForm):
             'id': 'section',
             'name': 'section'
         })
+        self.fields['section'].required = False
 
         self.fields['deadline'].widget.attrs.update({
             'class': 'form-control',

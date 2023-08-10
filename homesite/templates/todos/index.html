@@ -10,18 +10,18 @@ TODOS
 
 
 <div class="container">
-  <div class="row justify-content-center">
-    <div class="col-7 me-3 shadow-sm p-3 mb-5 bg-body rounded">
+  <div class="row g-5 justify-content-center">
+    <div class="col-7 shadow-sm p-3 mb-5 bg-body rounded">
 
       <div class="accordion" id="accordionPanel">
         {% for section in sections %}
         <div class="accordion-item">
           <h2 class="accordion-header" id="panelsStayOpen-heading{{ section.pk }}">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse{{ section.name }}" aria-expanded="true" aria-controls="panelsStayOpen-collapse{{ section.name }}">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse{{ section.pk }}" aria-expanded="true" aria-controls="panelsStayOpen-collapse{{ section.pk }}">
               <a class="me-3" data-bs-toggle="modal" data-bs-target="#section{{ section.pk }}_Modal"><i class="bi bi-x-square"></i></a>{{ section.name }}
             </button>
           </h2>
-          <div id="panelsStayOpen-collapse{{ section.name }}" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-heading{{ section.name }}">
+          <div id="panelsStayOpen-collapse{{ section.pk }}" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-heading{{ section.pk }}">
             <div class="accordion-body">
               {% for todo in todos %}
                 {% if todo.section.pk == section.pk %}
@@ -29,7 +29,9 @@ TODOS
                     <div class="card-body">
                       <div class="row">
                         <div class="col-10">
-                          {{ todo.description }}
+                          <p class="text-break">
+                            {{ todo.description }}
+                          </p>
                         </div>
                         <div class="col-1">
                           <a class="btn btn-warning" href="{% url 'todo-update' pk=todo.pk %}"><i class="bi bi-pen"></i></a>
