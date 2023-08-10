@@ -1,4 +1,4 @@
-from django.views.generic import TemplateView, DeleteView
+from django.views.generic import TemplateView, DeleteView, UpdateView
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 
@@ -47,6 +47,11 @@ class TodosIndexView(TemplateView):
         context = self.get_context_data(**kwargs)
         return self.render_to_response(context)
 
+class TodoUpdateView(UpdateView):
+    model = Todo
+    form_class = TodoForm
+    template_name = 'todos/todo_update.html'
+    success_url = reverse_lazy('todos-index')
 
 class TodoDeleteView(DeleteView):
     model = Todo

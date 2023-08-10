@@ -1,0 +1,43 @@
+{% extends '_base/base_generic.html' %}
+
+{% block title %}
+Update Todo
+{% endblock %}
+
+{% block scripts %}{% endblock %}
+
+{% block content %}
+
+
+<div class="container">
+  <dov class="row justify-content-center">
+
+    <div class="col-6 shadow-sm p-3 bg-body rounded">
+      <form method="post">
+        {% csrf_token %}
+        <div>
+            <label for="section" class="form-label">Section</label>
+            {{ form.section }}
+          </div>
+          <div>
+            <label for="description" class="form-label">Description</label>
+            {{ form.description }}
+          </div>
+          <div>
+            <label for="deadline" class="form-label">Deadline date</label>
+            {{ form.deadline }}
+          </div>
+          <div>
+            <label for="color" class="form-label">Color</label>
+            {{ form.color }}
+          </div>
+        <input class="btn btn-primary mt-3" type="submit" value="Update">
+      </form>
+    </div>
+
+  </dov>
+</div>
+
+
+
+{% endblock %}

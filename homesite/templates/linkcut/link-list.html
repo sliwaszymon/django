@@ -10,38 +10,42 @@ LINKCUT - Link list
 
 
 <div class="container">
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">URL</th>
-        <th scope="col">SHORT LINK</th>
-        <th scope="col">VISITS</th>
-        <th scope="col">CREATION DATE</th>
-        <th scope="col">ACTIONS</th>
-      </tr>
-    </thead>
-    <tbody>
-    {% for link in object_list %}
-      <tr>
-        <td>{{ link.url|slice:":25" }}...</td>
-        <td><a href="{% url 'redirect' snippet=link.snippet %}">http://{{ request.get_host }}/linkcut/r/{{ link.snippet }}/</a></td>
-        <td>{{ link.visit_counter }}</td>
-        <td>{{ link.creation_date|date }} {{ link.creation_date|time }}</td>
-        <td>
-          <div class="btn-group">
-            <a href="{% url 'link-detail' pk=link.pk %}"><button class="btn btn-primary">Show</button></a>
-            <form method="post" action="{% url 'link-delete' pk=link.pk %}">
-              {% csrf_token %}
-              <input type="submit" class="btn btn-danger" value="Delete" />
-            </form>
-          </div>
-        </td>
-      </tr>
-    {% empty %}
-      <p>Nic nie ma</p>
-    {% endfor %}
-    </tbody>
-  </table>
+  <div class="row">
+    <div class="col-12 shadow-sm p-3 bg-body rounded">
+      <table class="table">
+        <thead>
+        <tr>
+          <th scope="col">URL</th>
+          <th scope="col">SHORT LINK</th>
+          <th scope="col">VISITS</th>
+          <th scope="col">CREATION DATE</th>
+          <th scope="col">ACTIONS</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for link in object_list %}
+        <tr>
+          <td>{{ link.url|slice:":25" }}...</td>
+          <td><a href="{% url 'redirect' snippet=link.snippet %}">http://{{ request.get_host }}/linkcut/r/{{ link.snippet }}/</a></td>
+          <td>{{ link.visit_counter }}</td>
+          <td>{{ link.creation_date|date }} {{ link.creation_date|time }}</td>
+          <td>
+            <div class="btn-group">
+              <a href="{% url 'link-detail' pk=link.pk %}"><button class="btn btn-primary">Show</button></a>
+              <form method="post" action="{% url 'link-delete' pk=link.pk %}">
+                {% csrf_token %}
+                <input type="submit" class="btn btn-danger" value="Delete" />
+              </form>
+            </div>
+          </td>
+        </tr>
+        {% empty %}
+        <p>Nic nie ma</p>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
 
 

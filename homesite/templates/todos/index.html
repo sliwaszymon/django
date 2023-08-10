@@ -10,15 +10,15 @@ TODOS
 
 
 <div class="container">
-  <div class="row">
-    <div class="col-8 shadow-sm p-3 mb-5 bg-body rounded">
+  <div class="row justify-content-center">
+    <div class="col-7 me-3 shadow-sm p-3 mb-5 bg-body rounded">
 
       <div class="accordion" id="accordionPanel">
         {% for section in sections %}
         <div class="accordion-item">
-          <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+          <h2 class="accordion-header" id="panelsStayOpen-heading{{ section.pk }}">
             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse{{ section.name }}" aria-expanded="true" aria-controls="panelsStayOpen-collapse{{ section.name }}">
-              {{ section.name }}
+              <a class="me-3" data-bs-toggle="modal" data-bs-target="#section{{ section.pk }}_Modal"><i class="bi bi-x-square"></i></a>{{ section.name }}
             </button>
           </h2>
           <div id="panelsStayOpen-collapse{{ section.name }}" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-heading{{ section.name }}">
@@ -28,14 +28,14 @@ TODOS
                   <div class="card" style="background-color: {{ todo.color }};">
                     <div class="card-body">
                       <div class="row">
-                        <div class="col-8">
+                        <div class="col-10">
                           {{ todo.description }}
                         </div>
-                        <div class="col-2">
-                          <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#todo{{ todo.pk }}_Modal"><i class="bi bi-trash"></i> Delete</button>
+                        <div class="col-1">
+                          <a class="btn btn-warning" href="{% url 'todo-update' pk=todo.pk %}"><i class="bi bi-pen"></i></a>
                         </div>
-                        <div class="col-2">
-                          <button class="btn btn-warning"><i class="bi bi-pen"></i> Edit</button>
+                        <div class="col-1">
+                          <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#todo{{ todo.pk }}_Modal"><i class="bi bi-trash"></i></button>
                         </div>
                       </div>
                     </div>
@@ -46,6 +46,36 @@ TODOS
           </div>
         </div>
         {% endfor %}
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="panelsStayOpen-headingUnsigned">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseUnsigned" aria-expanded="true" aria-controls="panelsStayOpen-collapseUnsigned">
+              Unsigned Todos
+            </button>
+          </h2>
+          <div id="panelsStayOpen-collapseUnsigned" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-heading">
+            <div class="accordion-body">
+              {% for todo in todos %}
+                {% if todo.section == None %}
+                  <div class="card" style="background-color: {{ todo.color }};">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-10">
+                          {{ todo.description }}
+                        </div>
+                        <div class="col-1">
+                          <a class="btn btn-warning" href="{% url 'todo-update' pk=todo.pk %}"><i class="bi bi-pen"></i></a>
+                        </div>
+                        <div class="col-1">
+                          <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#todo{{ todo.pk }}_Modal"><i class="bi bi-trash"></i></button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="col-4">
@@ -106,6 +136,29 @@ TODOS
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
            <form method="post" action="{% url 'todo-delete' pk=todo.pk %}">
+              {% csrf_token %}
+              <input type="submit" class="btn btn-danger" value="Delete" />
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+
+{% for section in sections %}
+  <div class="modal fade" id="section{{ section.pk }}_Modal" tabindex="-1" aria-labelledby="section{{ section.pk }}_ModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="section{{ section.pk }}_ModalLabel">Delete section {{ section.name }}</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to remove section {{ section.name }}?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+           <form method="post" action="{% url 'section-delete' pk=section.pk %}">
               {% csrf_token %}
               <input type="submit" class="btn btn-danger" value="Delete" />
             </form>

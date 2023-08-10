@@ -11,9 +11,6 @@ from .models import Link
 
 # Create your views here.
 
-class LinkcutIndexView(TemplateView):
-    template_name = 'linkcut/index.html'
-
 
 class CutItFormView(CreateView):
     template_name = 'linkcut/cutit.html'

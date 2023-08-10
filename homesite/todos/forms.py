@@ -54,7 +54,8 @@ class TodoForm(forms.ModelForm):
         })
 
         self.fields['color'].widget.attrs.update({
-            'class': 'form-control',
+            'class': 'form-control form-control-color',
+            'tittle': 'Choose your color',
             'id': 'color',
             'name': 'color',
             'size': '50'
