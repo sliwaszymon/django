@@ -47,11 +47,13 @@ class TodosIndexView(TemplateView):
         context = self.get_context_data(**kwargs)
         return self.render_to_response(context)
 
+
 class TodoUpdateView(UpdateView):
     model = Todo
     form_class = TodoForm
     template_name = 'todos/todo_update.html'
     success_url = reverse_lazy('todos-index')
+
 
 class TodoDeleteView(DeleteView):
     model = Todo
