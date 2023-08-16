@@ -44,6 +44,9 @@ LINKCUT - Link list
         {% endfor %}
         </tbody>
       </table>
+      <div class="row">
+        {% include '_base/pagination.html' with page=page_obj %}
+      </div>
     </div>
   </div>
 </div>

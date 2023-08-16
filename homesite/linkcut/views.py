@@ -43,12 +43,7 @@ class LinkDetailView(DetailView):
 class LinkListView(ListView):
     model = Link
     template_name = 'linkcut/link-list.html'
-    paginate_by = 100
-
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context["now"] = timezone.now()
-    #     return context
+    paginate_by = 10
 
 
 class LinkDeleteView(DeleteView):
