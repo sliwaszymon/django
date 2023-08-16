@@ -2,7 +2,8 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+homesite/**/migrations/
+.idea/
 # C extensions
 *.so
 
