@@ -1,13 +1,14 @@
 from django.db import models
 from django.urls import reverse
-from django.utils import timezone
+from django.contrib.auth.models import User
 
 
-# Create your models here.
 class Link(models.Model):
     url = models.CharField(max_length=255, blank=False, null=False)
     snippet = models.CharField(max_length=20, blank=False, null=False, unique=True, primary_key=True)
-    creation_date = models.DateTimeField("Creation date", default=timezone.now())
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='links', null=True)
+    creation_date = models.DateTimeField("Creation date", auto_now_add=True)
+    last_visit_date = models.DateTimeField(auto_now=True)
     visit_counter = models.IntegerField(default=0)
 
     def __str__(self):

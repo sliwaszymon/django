@@ -1,11 +1,14 @@
-from django.views.generic import TemplateView, DeleteView, UpdateView
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views.generic import TemplateView, DeleteView, UpdateView
 
-from .models import Section, Todo
 from .forms import SectionForm, TodoForm
+from .models import Section, Todo
 
 
+@method_decorator(login_required, name='dispatch')
 class TodosIndexView(TemplateView):
     template_name = 'todos/index.html'
 
@@ -28,7 +31,7 @@ class TodosIndexView(TemplateView):
             name = section_form.cleaned_data['name']
             todo_cap = section_form.cleaned_data['todo_cap']
             section = Section(name=name)
-            if todo_cap != None:
+            if todo_cap is not None:
                 section.todo_cap = todo_cap
             else:
                 section.todo_cap = 0
@@ -48,6 +51,7 @@ class TodosIndexView(TemplateView):
         return self.render_to_response(context)
 
 
+@method_decorator(login_required, name='dispatch')
 class TodoUpdateView(UpdateView):
     model = Todo
     form_class = TodoForm
@@ -55,11 +59,13 @@ class TodoUpdateView(UpdateView):
     success_url = reverse_lazy('todos-index')
 
 
+@method_decorator(login_required, name='dispatch')
 class TodoDeleteView(DeleteView):
     model = Todo
     success_url = reverse_lazy('todos-index')
 
 
+@method_decorator(login_required, name='dispatch')
 class SectionDeleteView(DeleteView):
     model = Section
     success_url = reverse_lazy('todos-index')
