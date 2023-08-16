@@ -4,5 +4,13 @@
       <button class="btn btn-secondary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"><span class="material-symbols-outlined">menu</span></button>
       <a class="navbar-brand ps-3" href="{% url 'index' %}">Ho.me</a>
     </div>
+    {% if user.is_authenticated %}
+      <div class="navbar-brand">
+        <span>Hello, {{ user.username }}</span>
+        <a class="navar-brand btn btn-dark" href="{% url 'logout' %}">Logout</a>
+      </div>
+    {% else %}
+      <a class="navbar-brand ps-3 btn btn-dark" href="{% url 'login' %}">Log In</a>
+    {% endif %}
   </div>
 </nav>

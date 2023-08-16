@@ -1,14 +1,17 @@
+from django.contrib.auth.decorators import login_required
 from django.db.models import Count
+from django.db.models.functions import ExtractYear, ExtractMonth, ExtractDay
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.db.models.functions import ExtractYear, ExtractMonth, ExtractDay
+from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView, TemplateView, CreateView, DeleteView
 
-from .utils import create_qr, qr_to_base64
 from .forms import CutItForm
 from .models import Link
+from .utils import create_qr, qr_to_base64
 
 
+@method_decorator(login_required, name='dispatch')
 class CutItFormView(CreateView):
     template_name = 'linkcut/cutit.html'
     form_class = CutItForm
@@ -29,6 +32,7 @@ class CutItFormView(CreateView):
         # return super().form_invalid(form)
 
 
+@method_decorator(login_required, name='dispatch')
 class LinkDetailView(DetailView):
     model = Link
     template_name = 'linkcut/link-detail.html'
@@ -40,17 +44,20 @@ class LinkDetailView(DetailView):
         return context
 
 
+@method_decorator(login_required, name='dispatch')
 class LinkListView(ListView):
     model = Link
     template_name = 'linkcut/link-list.html'
     paginate_by = 10
 
 
+@method_decorator(login_required, name='dispatch')
 class LinkDeleteView(DeleteView):
     model = Link
     success_url = reverse_lazy('link-list')
 
 
+@method_decorator(login_required, name='dispatch')
 class LinkStatisticsView(TemplateView):
     template_name = 'linkcut/statistics.html'
 

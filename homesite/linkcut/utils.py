@@ -1,6 +1,7 @@
-import qrcode
 import base64
 from io import BytesIO
+
+import qrcode
 
 
 def create_qr(full_short_link):

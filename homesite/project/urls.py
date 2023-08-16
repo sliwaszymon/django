@@ -24,5 +24,6 @@ urlpatterns = [
     path('favicon.ico', empty_response),
     path('linkcut/', include('linkcut.urls')),
     path('todos/', include('todos.urls')),
+    path('auth/', include('authenticate.urls')),
     path('admin/', admin.site.urls),
 ]
