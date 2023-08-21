@@ -1,7 +1,7 @@
 {% extends '_base/base_generic.html' %}
 
 {% block title %}
-LINKCUT - Link list
+LINKCUT - {{ user.username }} links
 {% endblock %}
 
 {% block scripts %}{% endblock %}
@@ -32,6 +32,10 @@ LINKCUT - Link list
           <td>
             <div class="btn-group">
               <a href="{% url 'link-detail' pk=link.pk %}"><button class="btn btn-primary">Show</button></a>
+              <form method="post" action="{% url 'link-delete' pk=link.pk %}">
+                {% csrf_token %}
+                <input type="submit" class="btn btn-danger" value="Delete" />
+              </form>
             </div>
           </td>
         </tr>

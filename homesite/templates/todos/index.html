@@ -1,143 +1,108 @@
 {% extends '_base/base_generic.html' %}
 
 {% block title %}
-TODOS
+TODOS - Boards
 {% endblock %}
 
 {% block scripts %}{% endblock %}
 
 {% block content %}
-
-
 <div class="container">
-  <div class="row g-5 justify-content-center">
-    <div class="col-7 shadow-sm p-3 mb-5 bg-body rounded">
-
-      <div class="accordion" id="accordionPanel">
-        {% for section in sections %}
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="panelsStayOpen-heading{{ section.pk }}">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse{{ section.pk }}" aria-expanded="true" aria-controls="panelsStayOpen-collapse{{ section.pk }}">
-              <a class="me-3" data-bs-toggle="modal" data-bs-target="#section{{ section.pk }}_Modal"><i class="bi bi-x-square"></i></a>{{ section.name }}
-            </button>
-          </h2>
-          <div id="panelsStayOpen-collapse{{ section.pk }}" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-heading{{ section.pk }}">
-            <div class="accordion-body">
-              {% for todo in todos %}
-                {% if todo.section.pk == section.pk %}
-                  <div class="card" style="background-color: {{ todo.color }};">
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col-10">
-                          <p class="text-break">
-                            {{ todo.description }}
-                          </p>
-                        </div>
-                        <div class="col-1">
-                          <a class="btn btn-warning" href="{% url 'todo-update' pk=todo.pk %}"><i class="bi bi-pen"></i></a>
-                        </div>
-                        <div class="col-1">
-                          <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#todo{{ todo.pk }}_Modal"><i class="bi bi-trash"></i></button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                {% endif %}
-              {% endfor %}
-            </div>
-          </div>
+  <div class="row justify-content-center">
+    <div class="col-8 shadow-sm p-3 mb-5 bg-body rounded">
+      <div class="row">
+        <div class="col-11">
+          <h1 class="display-4 text-center">My boards</h1>
         </div>
-        {% endfor %}
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="panelsStayOpen-headingUnsigned">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseUnsigned" aria-expanded="true" aria-controls="panelsStayOpen-collapseUnsigned">
-              Unsigned Todos
-            </button>
-          </h2>
-          <div id="panelsStayOpen-collapseUnsigned" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-heading">
-            <div class="accordion-body">
-              {% for todo in todos %}
-                {% if todo.section == None %}
-                  <div class="card" style="background-color: {{ todo.color }};">
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col-10">
-                          {{ todo.description }}
-                        </div>
-                        <div class="col-1">
-                          <a class="btn btn-warning" href="{% url 'todo-update' pk=todo.pk %}"><i class="bi bi-pen"></i></a>
-                        </div>
-                        <div class="col-1">
-                          <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#todo{{ todo.pk }}_Modal"><i class="bi bi-trash"></i></button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                {% endif %}
-              {% endfor %}
-            </div>
-          </div>
+        <div class="col-1">
+          <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#boardModal"><i class="bi bi-plus-square"></i></button>
         </div>
       </div>
-    </div>
-    <div class="col-4">
-      <div class="row shadow-sm p-3 mb-5 bg-body rounded">
-        <h1 class="dispay-5">Add Section</h1>
-         <form method="post">
-          {% csrf_token %}
-           <label for="name" class="form-label">Section name</label>
-           {{ section_form.name }}
-           <label for="todo_cap" class="form-label">Maximum amount of your todos inside section</label>
-           <div class="input-group mb-3">
-             <span class="input-group-text" id="todo_cap_addon">Live 0 for no limits</span>
-             {{ section_form.todo_cap }}
-           </div>
-          <input class="btn btn-primary" type="submit" value="Add Section">
-        </form>
+      <div class="row justify-content-center">
+        <div class="col-7">
+          <ul class="list-group">
+            {% for bd in my_boards %}
+              <li class="list-group-item text-center">
+                <div class="row">
+                  <div class="col-8">
+                    <a class="me-5" href="{% url 'board' pk=bd.pk %}">{{ bd.name }}</a>
+                  </div>
+                  <div class="col-4">
+                    <a href="" data-bs-toggle="modal" data-bs-target="#board{{ bd.pk }}del_Modal"><i class="bi bi-x-square"></i></a>
+                  </div>
+                </div>
+              </li>
+            {% empty %}
+            <p class="text-center">You don't have boards yet. Create one!</p>
+            {% endfor %}
+          </ul>
+        </div>
       </div>
-      <div class="row mt-4 shadow-sm p-3 mb-5 bg-body rounded">
-        <h1 class="dispay-5">Add Todo</h1>
-        <form method="post">
-          {% csrf_token %}
-          <div>
-            <label for="section" class="form-label">Section</label>
-            {{ todo_form.section }}
-          </div>
-          <div>
-            <label for="description" class="form-label">Description</label>
-            {{ todo_form.description }}
-          </div>
-          <div>
-            <label for="deadline" class="form-label">Deadline date</label>
-            {{ todo_form.deadline }}
-          </div>
-          <div>
-            <label for="color" class="form-label">Color</label>
-            {{ todo_form.color }}
-          </div>
-          <input class="btn btn-primary mt-3" type="submit" value="Add Todo">
-        </form>
+      <div class="row">
+        <div class="col-11">
+          <h2 class="display-5 text-center">Public boards</h2>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-7">
+          <ul class="list-group">
+            {% for bd in pubic_boards %}
+              <li class="list-group-item text-center"><a href="{% url 'board' pk=bd.pk %}">{{ bd.name }}</a></li>
+              <a href="">delete</a>
+            {% empty %}
+            <p class="text-center">Theres no public boards.</p>
+            {% endfor %}
+        </ul>
+        </div>
       </div>
     </div>
   </div>
-
-
 </div>
 
-{% for todo in todos %}
-  <div class="modal fade" id="todo{{ todo.pk }}_Modal" tabindex="-1" aria-labelledby="todo{{ todo.pk }}_ModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="todo{{ todo.pk }}_ModalLabel">Delete todo {{ todo.pk }}</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
+<div class="modal fade" id="boardModal" tabindex="-1" aria-labelledby="boardModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="boardModalLabel">Add new board</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="post">
+        {% csrf_token %}
         <div class="modal-body">
-          Are you sure you want to remove todo {{ todo.pk }}?
+          <div class="mb-3">
+            <label for="name" class="form-label">Board name</label>
+            {{ form.name }}
+          </div>
+          <div class="form-check mb-3">
+            {{ form.is_private }}
+            <label class="form-check-label" for="is_private">
+              Private board
+            </label>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-           <form method="post" action="{% url 'todo-delete' pk=todo.pk %}">
+          <input type="submit" class="btn btn-primary" value="Create" />
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% for bd in my_boards %}
+  <div class="modal fade" id="board{{ bd.pk }}del_Modal" tabindex="-1" aria-labelledby="board{{ bd.pk }}del_ModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="board{{ bd.pk }}del_ModalLabel">Delete board {{ bd.pk }}</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to remove board {{ bd.pk }}?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+           <form method="post" action="{% url 'board-delete' pk=bd.pk %}">
               {% csrf_token %}
               <input type="submit" class="btn btn-danger" value="Delete" />
             </form>
@@ -146,29 +111,5 @@ TODOS
     </div>
   </div>
 {% endfor %}
-
-{% for section in sections %}
-  <div class="modal fade" id="section{{ section.pk }}_Modal" tabindex="-1" aria-labelledby="section{{ section.pk }}_ModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="section{{ section.pk }}_ModalLabel">Delete section {{ section.name }}</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          Are you sure you want to remove section {{ section.name }}?
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-           <form method="post" action="{% url 'section-delete' pk=section.pk %}">
-              {% csrf_token %}
-              <input type="submit" class="btn btn-danger" value="Delete" />
-            </form>
-        </div>
-      </div>
-    </div>
-  </div>
-{% endfor %}
-
 
 {% endblock %}

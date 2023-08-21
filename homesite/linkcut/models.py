@@ -10,6 +10,7 @@ class Link(models.Model):
     creation_date = models.DateTimeField("Creation date", auto_now_add=True)
     last_visit_date = models.DateTimeField(auto_now=True)
     visit_counter = models.IntegerField(default=0)
+    is_private = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.snippet} | {self.url}'
