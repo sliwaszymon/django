@@ -20,8 +20,7 @@ class CutItFormView(CreateView):
     error_message = 'Shortcut or link has already been used.'
 
     def form_valid(self, form):
-        value = form.cleaned_data
-        print("Value of the input field:", value)
+        form.instance.created_by = self.request.user
         return super().form_valid(form)
 
     def form_invalid(self, form):
@@ -49,6 +48,23 @@ class LinkListView(ListView):
     model = Link
     template_name = 'linkcut/link-list.html'
     paginate_by = 10
+
+    def get_queryset(self):
+        user = self.request.user
+        users_links = Link.objects.filter(created_by=user)
+        public_links = Link.objects.filter(is_private=False)
+        return users_links | public_links
+
+
+@method_decorator(login_required, name='dispatch')
+class MyLinkListView(ListView):
+    model = Link
+    template_name = 'linkcut/my-link-list.html'
+    paginate_by = 10
+
+    def get_queryset(self):
+        user = self.request.user
+        return Link.objects.filter(created_by=user)
 
 
 @method_decorator(login_required, name='dispatch')

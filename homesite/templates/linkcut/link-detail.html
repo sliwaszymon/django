@@ -10,12 +10,14 @@ LINKCUT - Link detail
 
 
 <div class="container">
-  <p>Date: {{ object.creation_date }}</p>
-  <div class="card" style="width: 18rem;">
-    <img src="data:image/jpeg;base64,{{ qrcode }}" class="card-img-top" alt="QRCode">
-    <div class="card-body">
-      <a href="{% url 'redirect' snippet=object.snippet %}"><h5 class="card-title">http://{{ request.get_host }}/linkcut/r/{{ object.snippet }}</h5></a>
-      <p class="card-text">{{ object.url }}</p>
+  <div class="row justify-content-center">
+    <p>Date: {{ object.creation_date }}</p>
+    <div class="card" style="width: 18rem;">
+      <img src="data:image/jpeg;base64,{{ qrcode }}" class="card-img-top" alt="QRCode">
+      <div class="card-body">
+        <a href="{% url 'redirect' snippet=object.snippet %}"><h5 class="card-title">http://{{ request.get_host }}/linkcut/r/{{ object.snippet }}</h5></a>
+        <p class="card-text">{{ object.url }}</p>
+      </div>
     </div>
   </div>
 </div>
