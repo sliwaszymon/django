@@ -1,5 +1,6 @@
 from django.contrib.auth.views import LoginView, LogoutView
-from .forms import LoginForm
+from django.views.generic import TemplateView
+from .forms import LoginForm, RegistrationForm
 from django.shortcuts import redirect
 
 
@@ -18,3 +19,7 @@ class MyLogoutView(LogoutView):
     def get(self, request, *args, **kwargs):
         super().get(request, *args, **kwargs)
         return redirect('index')
+
+
+class RegisterView(TemplateView):
+    pass
