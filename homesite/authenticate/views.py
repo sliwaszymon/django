@@ -1,4 +1,6 @@
 from django.contrib.auth.views import LoginView, LogoutView
+from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from .forms import LoginForm, RegistrationForm
 from django.shortcuts import redirect
@@ -22,4 +24,21 @@ class MyLogoutView(LogoutView):
 
 
 class RegisterView(TemplateView):
-    pass
+    template_name = 'auth/register.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user_form'] = RegistrationForm()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        user_form = RegistrationForm(request.POST)
+        if user_form.is_valid():
+            new_user = user_form.save(commit=False)
+            new_user.set_password(user_form.cleaned_data['password'])
+            new_user.save()
+            return HttpResponseRedirect(reverse_lazy('login'))
+        context = self.get_context_data(**kwargs)
+        return self.render_to_response(context)
+
+# TODO: password reset and change own views

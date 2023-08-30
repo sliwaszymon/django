@@ -46,11 +46,10 @@ TODOS - Boards
       <div class="row justify-content-center">
         <div class="col-7">
           <ul class="list-group">
-            {% for bd in pubic_boards %}
+            {% for bd in public_boards %}
               <li class="list-group-item text-center"><a href="{% url 'board' pk=bd.pk %}">{{ bd.name }}</a></li>
-              <a href="">delete</a>
             {% empty %}
-            <p class="text-center">Theres no public boards.</p>
+            <p class="text-center">There is no public boards.</p>
             {% endfor %}
         </ul>
         </div>
